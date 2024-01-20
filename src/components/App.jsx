@@ -1,20 +1,29 @@
-import { Product } from './Product';
+import {useState} from 'react';
+import { Description } from './Description';
+import { Options } from './Options';
+import { Feedback } from './Feedback';
 
 export default function App() {
+
+  const [feedbackTypes, setFeedbackTypes] = useState({
+    good: 0,
+    neutral: 0,
+    bad: 0
+  });
+
+  const handleFeedbackClick = (type) => {
+    setFeedbackTypes((prevFeedback) => ({
+      ...prevFeedback,
+      [type]: prevFeedback[type] + 1
+    }));
+  };
+
+
   return (
     <div>
-      <h1>Best selling</h1>
-
-      <Product
-        name="Tacos With Lime"
-        imgUrl="<https://images.pexels.com/photos/461198/pexels-photo-461198.jpeg?dpr=2&h=480&w=640>"
-        price={10.99}
-      />
-      <Product
-        name="Fries and Burger"
-        imgUrl="<https://images.pexels.com/photos/70497/pexels-photo-70497.jpeg?dpr=2&h=480&w=640>"
-        price={14.29}
-      />
+      <Description/>
+      <Options onFeedbackClick={handleFeedbackClick}/>
+      <Feedback feedbackTypes={feedbackTypes}/>
     </div>
   );
 }
