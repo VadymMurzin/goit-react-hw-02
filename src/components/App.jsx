@@ -2,6 +2,7 @@ import {useState} from 'react';
 import { Description } from './Description';
 import { Options } from './Options';
 import { Feedback } from './Feedback';
+import { Notification } from './Notification';
 
 export default function App() {
 
@@ -18,12 +19,25 @@ export default function App() {
     }));
   };
 
+  const handleResetClick = () => {
+    setFeedbackTypes({
+      good: 0,
+      neutral: 0,
+      bad: 0
+    });
+  };
+
+  const totalFeedback = feedbackTypes.good + feedbackTypes.neutral + feedbackTypes.bad;
 
   return (
     <div>
       <Description/>
-      <Options onFeedbackClick={handleFeedbackClick}/>
-      <Feedback feedbackTypes={feedbackTypes}/>
+      <Options onFeedbackClick={handleFeedbackClick} onResetClick={handleResetClick} hasFeedback={totalFeedback > 0}/>
+      {totalFeedback > 0 ? (
+        <Feedback feedbackTypes={feedbackTypes} totalFeedback={totalFeedback} />
+      ) : (
+        <Notification />
+      )}
     </div>
   );
 }
